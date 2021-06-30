@@ -27,7 +27,13 @@ public class BankApi {
     }
 
     @GetMapping("/search/{id}")
-    private Account getCustomer(@PathVariable("id") String id)
+    private Account getCustomerId(@PathVariable("id") String id)
+    {
+        return bankservice.getCustomerById(id);
+    }
+
+    @GetMapping("/search/name/{id}")
+    private Account getCustomerName(@PathVariable("id") String id)
     {
         return bankservice.getCustomerById(id);
     }

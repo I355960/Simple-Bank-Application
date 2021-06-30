@@ -4,6 +4,10 @@ import com.finalproject.bank.Entity.Account;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface accountRepo extends CrudRepository<Account,String> {
+
+    List<Account> findBycustomerName(String customerName);
 }

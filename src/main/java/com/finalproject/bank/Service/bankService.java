@@ -73,5 +73,12 @@ public class bankService {
         return account;
     }
 
+    public List<Account> getCustomerByName(String id)
+    {
+        List<Account> account = new ArrayList<Account>();
+        accountrepo.findBycustomerName(id).forEach(account1 -> account.add(account1));
+        return account;
+    }
+
 
 }
