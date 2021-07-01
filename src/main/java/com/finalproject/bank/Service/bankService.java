@@ -2,7 +2,6 @@ package com.finalproject.bank.Service;
 
 import com.finalproject.bank.Entity.Account;
 import com.finalproject.bank.Entity.Bank;
-import com.finalproject.bank.Entity.Branch;
 import com.finalproject.bank.Entity.Transcation;
 import com.finalproject.bank.Repositatory.accountRepo;
 import com.finalproject.bank.Repositatory.bankRepo;
