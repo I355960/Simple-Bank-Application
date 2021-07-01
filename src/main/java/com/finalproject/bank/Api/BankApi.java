@@ -5,8 +5,10 @@ import com.finalproject.bank.Entity.Bank;
 import com.finalproject.bank.Entity.Transcation;
 import com.finalproject.bank.Service.bankService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,10 +35,22 @@ public class BankApi {
         return bankservice.getCustomerById(id);
     }
 
-    @GetMapping("/search/name/{id}")
-    private Account getCustomerName(@PathVariable("id") String id)
+    @GetMapping("/name/{id}")
+    private List<Account> getCustomerName(@PathVariable("id") String id)
     {
-        return bankservice.getCustomerById(id);
+        return bankservice.getCustomerByName(id);
+    }
+
+    @GetMapping("/pincode/{pinCode}")
+    private List<Account> getCustomerPincode(@PathVariable("pinCode") String pinCode)
+    {
+        return bankservice.getCustomerByPincode(pinCode);
+    }
+
+    @GetMapping("/date/{date1}/{date2}")
+    private List<Transcation> getByTranscationDate(@PathVariable("date1") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date1, @PathVariable("date2") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date2)
+    {
+        return bankservice.getTranscationByDate(date1,date2);
     }
 
 

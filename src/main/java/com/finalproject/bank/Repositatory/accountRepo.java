@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface accountRepo extends CrudRepository<Account,String> {
 
-    List<Account> findBycustomerName(String customerName);
+
+    List<Account> findBycustomerNameContaining(String customerName);
+    List<Account> findBypinCode(String pinCode);
 }
