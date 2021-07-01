@@ -1,6 +1,7 @@
 package com.finalproject.bank.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,10 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @Setter
@@ -24,7 +28,7 @@ public class Account {
     private String accountNo = UUID.randomUUID().toString();
 
     @Column
-    private LocalDate date =  LocalDate.now();
+    private LocalDate date  =  LocalDate.now();
 
     @Column
     private String customerName;
@@ -45,4 +49,10 @@ public class Account {
     @JsonBackReference(value = "branchToAccount")
     @JoinColumn(name = "ifscCode")
     private Branch branch;
+
+    @OneToMany(cascade=ALL, mappedBy="account")
+    @JsonManagedReference(value = "accountToTranscation")
+    private List<Transcation> transcation;
+
+
 }

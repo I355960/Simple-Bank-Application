@@ -38,6 +38,5 @@ public class Branch {
 
     @OneToMany(cascade=ALL, mappedBy="branch")
     @JsonManagedReference(value = "branchToAccount")
-    //@JoinColumn(name = "ifscCode")
     private List<Account> account;
 }

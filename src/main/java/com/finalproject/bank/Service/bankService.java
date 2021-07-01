@@ -7,9 +7,7 @@ import com.finalproject.bank.Repositatory.bankRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,10 +71,10 @@ public class bankService {
         return account;
     }
 
-    public List<Account> getCustomerByName(String id)
+    public List<Account> getCustomerByName(String name)
     {
         List<Account> account = new ArrayList<Account>();
-        accountrepo.findBycustomerName(id).forEach(account1 -> account.add(account1));
+        accountrepo.findBycustomerName(name).forEach(account1 -> account.add(account1));
         return account;
     }
 
