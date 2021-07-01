@@ -2,8 +2,10 @@ package com.finalproject.bank.Service;
 
 import com.finalproject.bank.Entity.Account;
 import com.finalproject.bank.Entity.Bank;
+import com.finalproject.bank.Entity.Transcation;
 import com.finalproject.bank.Repositatory.accountRepo;
 import com.finalproject.bank.Repositatory.bankRepo;
+import com.finalproject.bank.Repositatory.transcationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,8 @@ public class bankService {
     private Account account;
     @Autowired
     private Bank bank;
+    @Autowired
+    private transcationRepo transcationrepo;
 
 
     public Bank createBank( Bank bank)
@@ -71,12 +75,46 @@ public class bankService {
         return account;
     }
 
-    public List<Account> getCustomerByName(String name)
+
+    public String getCreditAmount(Transcation transc,String id)
     {
-        List<Account> account = new ArrayList<Account>();
-        accountrepo.findBycustomerName(name).forEach(account1 -> account.add(account1));
-        return account;
+        account = accountrepo.findById(id).get();
+        Transcation transcation = new Transcation();
+        transcation.setCreditBalance(transc.getCreditBalance());
+        transcation.setRemarks(transc.getRemarks());
+        transcation.setAccount(account);
+        account.setBalance(account.getBalance()+transc.getCreditBalance());
+        accountrepo.save(account);
+        transcationrepo.save(transcation);
+
+        return +transc.getCreditBalance() +" is credited in Account number" +id +" . Your total balance is " +account.getBalance();
+
     }
+
+
+
+    public String getDebitAmount(Transcation transc,String id)
+    {
+        account = accountrepo.findById(id).get();
+        Transcation transcation = new Transcation();
+        transcation.setDebitBalance(transc.getDebitBalance());
+        transcation.setRemarks(transc.getRemarks());
+        transcation.setAccount(account);
+        account.setBalance(account.getBalance()+transc.getCreditBalance());
+        accountrepo.save(account);
+        transcationrepo.save(transcation);
+
+        return +transc.getCreditBalance() +" is credited in Account number" +id +".Your total balance is " +account.getBalance();
+
+    }
+
+
+//    public List<Account> getCustomerByName(String name)
+//    {
+//        List<Account> account = new ArrayList<Account>();
+//        accountrepo.findBycustomerName(name).forEach(account1 -> account.add(account1));
+//        return account;
+//    }
 
 
 }

@@ -2,6 +2,7 @@ package com.finalproject.bank.Api;
 
 import com.finalproject.bank.Entity.Account;
 import com.finalproject.bank.Entity.Bank;
+import com.finalproject.bank.Entity.Transcation;
 import com.finalproject.bank.Service.bankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,19 @@ public class BankApi {
     {
         return bankservice.recordUpdate(account,id);
     }
+
+    @PostMapping("/credit/{id}")
+    public String creditBal(@RequestBody Transcation trans,@PathVariable("id") String id)
+    {
+        return bankservice.getCreditAmount(trans,id);
+    }
+
+    @PostMapping("/debit/{id}")
+    public String debitBal(@RequestBody Transcation trans,@PathVariable("id") String id)
+    {
+        return bankservice.getDebitAmount(trans,id);
+    }
+
 
 
 }

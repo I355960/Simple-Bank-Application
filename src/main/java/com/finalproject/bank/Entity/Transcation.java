@@ -11,10 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.UUID;
 
-import static javax.persistence.CascadeType.ALL;
+
 
 @Getter
 @Setter
@@ -26,12 +25,12 @@ public class Transcation {
     @Column
     @Id
     private String transId = UUID.randomUUID().toString();
+
     @Column
     private LocalDate transDate = LocalDate.now();
 
     @Column
     private LocalTime transTime =LocalTime.now();
-
 
     @Column
     private double creditBalance;
@@ -39,8 +38,6 @@ public class Transcation {
     @Column
     private double debitBalance;
 
-    @Column
-    private double totalAmount;
 
     @Column
     private String remarks;
