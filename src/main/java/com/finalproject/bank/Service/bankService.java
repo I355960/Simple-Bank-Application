@@ -2,10 +2,13 @@ package com.finalproject.bank.Service;
 
 import com.finalproject.bank.Entity.Account;
 import com.finalproject.bank.Entity.Bank;
+import com.finalproject.bank.Entity.Branch;
 import com.finalproject.bank.Entity.Transcation;
+import com.finalproject.bank.Exception.bankExceptionController;
 import com.finalproject.bank.Repositatory.accountRepo;
 import com.finalproject.bank.Repositatory.bankRepo;
 import com.finalproject.bank.Repositatory.transcationRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,15 +32,26 @@ public class bankService {
     private transcationRepo transcationrepo;
 
 
-    public Bank createBank( Bank bank)
+    public String createBank( Bank bank)
     {
 
-        bank.setBankCode(bank.getBankCode());
-        bank.setBankName(bank.getBankName());
-        bank.setAddress(bank.getAddress());
-        bank.setPinCode(bank.getPinCode());
-        bankrepo.save(bank);
-        return bank;
+            Branch branch1 = bank.getBranch().get(0);
+            Account account1 = branch1.getAccount().get(0);
+            if (account1.getBalance() < 1000) {
+                throw new bankExceptionController("601","Your Account is not created. Due to minimum balance not is maintained");
+            }
+            try{
+                bank.setBankCode(bank.getBankCode());
+                bank.setBankName(bank.getBankName());
+                bank.setAddress(bank.getAddress());
+                bank.setPinCode(bank.getPinCode());
+                bankrepo.save(bank);
+                return "Congratulations!!Your Account is created.Your account number is :" + account1.getAccountNo();
+
+        }catch (Exception e) {
+            throw new bankExceptionController("602","Invaild entry.");
+        }
+
     }
 
 

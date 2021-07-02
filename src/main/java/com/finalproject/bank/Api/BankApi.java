@@ -3,7 +3,10 @@ package com.finalproject.bank.Api;
 import com.finalproject.bank.Entity.Account;
 import com.finalproject.bank.Entity.Bank;
 import com.finalproject.bank.Entity.Transcation;
+import com.finalproject.bank.Exception.bankExceptionController;
 import com.finalproject.bank.Service.bankService;
+import netscape.javascript.JSObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +21,15 @@ public class BankApi {
     private bankService bankservice;
 
     @PostMapping("/bank")
-    public Bank createBank(@RequestBody Bank bank)
+    public String createBank(@RequestBody Bank bank)
     {
-        return bankservice.createBank(bank);
+        try{
+            return bankservice.createBank(bank);
+        }
+        catch (bankExceptionController e)
+        {
+            return e.getErrorCode();
+        }
     }
 
     @GetMapping("/bank")
