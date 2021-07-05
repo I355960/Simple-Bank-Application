@@ -38,7 +38,7 @@ public class bankService {
             Branch branch1 = bank.getBranch().get(0);
             Account account1 = branch1.getAccount().get(0);
             if (account1.getBalance() < 1000) {
-                throw new bankExceptionController("601","Your Account is not created. Due to minimum balance not is maintained");
+                throw new bankExceptionController("Your Account is not created. Due to minimum balance not is maintained");
             }
             try{
                 bank.setBankCode(bank.getBankCode());
@@ -49,7 +49,7 @@ public class bankService {
                 return "Congratulations!!Your Account is created.Your account number is :" + account1.getAccountNo();
 
         }catch (Exception e) {
-            throw new bankExceptionController("602","Invaild entry.");
+            throw new bankExceptionController("Invaild entry.");
         }
 
     }

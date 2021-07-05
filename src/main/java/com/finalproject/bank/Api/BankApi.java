@@ -5,8 +5,7 @@ import com.finalproject.bank.Entity.Bank;
 import com.finalproject.bank.Entity.Transcation;
 import com.finalproject.bank.Exception.bankExceptionController;
 import com.finalproject.bank.Service.bankService;
-import netscape.javascript.JSObject;
-import org.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,7 @@ public class BankApi {
         }
         catch (bankExceptionController e)
         {
-            return e.getErrorCode();
+            return e.getErrorMessage();
         }
     }
 

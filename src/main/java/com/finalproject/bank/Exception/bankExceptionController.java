@@ -17,7 +17,14 @@ import org.springframework.stereotype.Component;
 public class bankExceptionController extends RuntimeException {
 
     private  String errorMessage;
-    private String errorCode;
+    //private String errorCode;
     private static final long serialVersionUID = 1L;
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 }
