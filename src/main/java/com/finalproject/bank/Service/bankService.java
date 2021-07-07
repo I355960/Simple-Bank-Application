@@ -7,8 +7,10 @@ import com.finalproject.bank.Entity.Transcation;
 import com.finalproject.bank.Exception.bankExceptionController;
 import com.finalproject.bank.Repositatory.accountRepo;
 import com.finalproject.bank.Repositatory.bankRepo;
+import com.finalproject.bank.Repositatory.branchRepo;
 import com.finalproject.bank.Repositatory.transcationRepo;
 
+import com.finalproject.bank.Structure.fundTransferStructure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +32,10 @@ public class bankService {
     private Bank bank;
     @Autowired
     private transcationRepo transcationrepo;
+    @Autowired
+    private branchRepo branchrepo;
 
+/*Create a new account*/
 
     public String createBank( Bank bank)
     {
@@ -54,7 +59,7 @@ public class bankService {
 
     }
 
-
+/* View Accounts */
     public List<Bank> getAllBank()
     {
         List<Bank> bank = new ArrayList<Bank>();
@@ -62,12 +67,13 @@ public class bankService {
         return bank;
 
     }
-
+/* Delete Account*/
     public String deleteCustomer(String accountNo)
     {
        accountrepo.deleteById(accountNo);
         return "Delete customer record" +accountNo;
     }
+/* Update account */
 
     public String recordUpdate(Account account1, String id)
     {
@@ -84,7 +90,7 @@ public class bankService {
         return "Record not found";
 
     }
-
+/* Search account by id */
     public Account getCustomerById(String id)
     {
 
@@ -92,6 +98,7 @@ public class bankService {
         return account;
     }
 
+    /* Account credit */
 
     public String getCreditAmount(Transcation transc,String id)
     {
@@ -108,12 +115,12 @@ public class bankService {
 
     }
 
-
+    /* Account debit */
 
     public String getDebitAmount(Transcation transc,String id)
     {
         account = accountrepo.findById(id).get();
-        if(account.getBalance()>transc.getDebitBalance()) {
+        if(account.getBalance()>= transc.getDebitBalance()) {
             Transcation transcation = new Transcation();
             transcation.setDebitBalance(transc.getDebitBalance());
             transcation.setRemarks(transc.getRemarks());
@@ -128,13 +135,14 @@ public class bankService {
 
     }
 
-
+    /* Search account by name */
     public List<Account> getCustomerByName(String name)
     {
 
         List<Account> account = accountrepo.findBycustomerNameContaining(name);
         return account;
     }
+    /* Search account by pincode*/
 
     public List<Account> getCustomerByPincode(String pincode)
     {
@@ -143,11 +151,42 @@ public class bankService {
         return account;
     }
 
+    /* Transcation by filter in date */
     public List<Transcation> getTranscationByDate(LocalDate date1,LocalDate date2)
     {
 
         List<Transcation> transcation = transcationrepo.findBytransDateBetween(date1,date2);
         return transcation;
+    }
+
+    /* Fund transfer */
+
+    public String fundTransfer(fundTransferStructure transferAmount)
+    {
+
+        bankrepo.findById(transferAmount.getSenderBankID()).get();
+        branchrepo.findById(transferAmount.getSenderBankIfsc()).get();
+        account = accountrepo.findById(transferAmount.getSenderAccountId()).get();
+
+        bankrepo.findById(transferAmount.getReceiverBankID()).get();
+        branchrepo.findById(transferAmount.getReceiverBankIfsc()).get();
+        accountrepo.findById(transferAmount.getReceiverAccountId()).get();
+
+        Transcation transc1 = new Transcation();
+        transc1.setDebitBalance(transferAmount.getAmount());
+        transc1.setCreditBalance(transferAmount.getAmount());
+
+        if (account.getBalance()>=transferAmount.getAmount()) {
+            String remarks = "Transfer to ACCOUNT NO. " +transferAmount.getReceiverAccountId();
+            transc1.setRemarks(remarks);
+            getDebitAmount(transc1, transferAmount.getSenderAccountId());
+            remarks = "Received from ACCOUNT NO. " +transferAmount.getSenderAccountId();
+            transc1.setRemarks(remarks);
+            getCreditAmount(transc1, transferAmount.getReceiverAccountId());
+            return "Transfer amount:" +transferAmount.getAmount();
+        }
+        else
+            return "Unavailable to transfer amount.";
     }
 
 }

@@ -22,7 +22,7 @@ public class bankExceptionControllerHandle {
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handleBankWithNoSuchElementException(NoSuchElementException noSuchElementException)
     {
-        return new ResponseEntity<String>("No such element are not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<String>("No such ID are not found", HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<String> handleBankWithEmptyResultDataAccessException(EmptyResultDataAccessException emptyResultDataAccessException)

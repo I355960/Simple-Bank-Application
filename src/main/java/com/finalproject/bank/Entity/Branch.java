@@ -12,6 +12,9 @@ import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
 
+
+/* Branch */
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -39,4 +42,6 @@ public class Branch {
     @OneToMany(cascade=ALL, mappedBy="branch")
     @JsonManagedReference(value = "branchToAccount")
     private List<Account> account;
+
+
 }

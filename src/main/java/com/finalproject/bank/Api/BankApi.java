@@ -6,6 +6,8 @@ import com.finalproject.bank.Entity.Transcation;
 import com.finalproject.bank.Exception.bankExceptionController;
 import com.finalproject.bank.Service.bankService;
 
+import com.finalproject.bank.Structure.fundTransferStructure;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -86,6 +88,11 @@ public class BankApi {
         return bankservice.getDebitAmount(trans,id);
     }
 
+    @PostMapping("/transfer")
+    public String fundTransfer(@RequestBody fundTransferStructure account)
+    {
+        return bankservice.fundTransfer(account);
+    }
 
 
 }

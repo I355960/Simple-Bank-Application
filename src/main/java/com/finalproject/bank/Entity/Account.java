@@ -15,6 +15,8 @@ import java.util.UUID;
 
 import static javax.persistence.CascadeType.ALL;
 
+/* Account Entity*/
+
 @Getter
 @Setter
 @Entity
@@ -29,6 +31,9 @@ public class Account {
 
     @Column
     private LocalDate date  =  LocalDate.now();
+
+    @Column
+    private String accountType;
 
     @Column
     private String customerName;
@@ -53,6 +58,8 @@ public class Account {
     @OneToMany(cascade=ALL, mappedBy="account")
     @JsonManagedReference(value = "accountToTranscation")
     private List<Transcation> transcation;
+
+
 
 
 }
