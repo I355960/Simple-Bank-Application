@@ -2,23 +2,21 @@ package com.finalproject.bank.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import static javax.persistence.CascadeType.ALL;
 
 /* Account Entity*/
 
-@Getter
-@Setter
+
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +25,7 @@ public class Account {
 
     @Id
     @Column
-    private String accountNo = UUID.randomUUID().toString();
+    private String accountNo = UUID.randomUUID().toString().toUpperCase(Locale.ROOT);
 
     @Column
     private LocalDate date  =  LocalDate.now();
@@ -46,6 +44,9 @@ public class Account {
 
     @Column
     private String pinCode;
+
+    @Column
+    private String contactNumber;
 
     @Column
     private double balance;
@@ -113,6 +114,14 @@ public class Account {
 
     public void setPinCode(String pinCode) {
         this.pinCode = pinCode;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public double getBalance() {

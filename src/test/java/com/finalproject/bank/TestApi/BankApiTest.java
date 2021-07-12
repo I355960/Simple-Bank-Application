@@ -5,6 +5,7 @@ import com.finalproject.bank.Entity.Account;
 import com.finalproject.bank.Entity.Bank;
 import com.finalproject.bank.Entity.Branch;
 import com.finalproject.bank.Entity.Transcation;
+import com.finalproject.bank.Repositatory.accountRepo;
 import com.finalproject.bank.Repositatory.bankRepo;
 import com.finalproject.bank.Service.bankService;
 import org.junit.jupiter.api.Test;
@@ -18,8 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -29,6 +29,8 @@ public class BankApiTest {
     private bankService bankservice;
     @MockBean
     private bankRepo bankrepo;
+    @MockBean
+    private accountRepo accountrepo;
 
     @Test
     public void createBankNullCheckTest()
@@ -115,7 +117,6 @@ public class BankApiTest {
         when(bankrepo.findAll()).thenReturn(Stream.of(new Bank("SBI","State Bank of India","Mumbai",1234,branch)).collect(Collectors.toList()));
         assertEquals(1,bankservice.getAllBank().size());
     }
-
 
 
 }

@@ -1,10 +1,7 @@
 package com.finalproject.bank.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.context.annotation.Configuration;
 
 
@@ -15,8 +12,7 @@ import java.util.UUID;
 
 /* Transcation */
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Configuration
