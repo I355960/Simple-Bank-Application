@@ -12,4 +12,5 @@ public interface accountRepo extends CrudRepository<Account,String> {
 
     List<Account> findBycustomerNameContaining(String customerName);
     List<Account> findBypinCode(String pinCode);
+
 }

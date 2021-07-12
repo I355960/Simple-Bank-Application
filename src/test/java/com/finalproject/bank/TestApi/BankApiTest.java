@@ -1,19 +1,25 @@
 package com.finalproject.bank.TestApi;
 
 import com.finalproject.bank.Api.BankApi;
+import com.finalproject.bank.Entity.Account;
 import com.finalproject.bank.Entity.Bank;
 import com.finalproject.bank.Entity.Branch;
+import com.finalproject.bank.Entity.Transcation;
 import com.finalproject.bank.Repositatory.bankRepo;
 import com.finalproject.bank.Service.bankService;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -35,28 +41,81 @@ public class BankApiTest {
     @Test
     public void createBankCheckTest()
     {
-        Bank bank = new Bank();
-        bank.setBankName("SBI");
-        bank.setAddress("blr");
-        bank.setPinCode(1234);
 
-        bank.setBranch(null);
+
+       List<Branch> branch = new ArrayList<Branch>();
+       List<Account> account = new ArrayList<Account>();
+       List<Transcation> transcation = new ArrayList<Transcation>();
+
+       Transcation transcationData = new Transcation();
+
+       transcation.add(transcationData);
+
+        Account accountData = new Account();
+
+        accountData.setAccountType("Saving");
+        accountData.setCustomerName("Test name");
+        accountData.setBalance(1000);
+        accountData.setPanCard("PAN001");
+        accountData.setTranscation(transcation);
+        account.add(accountData);
+
+        Branch branchData = new Branch();
+
+        branchData.setIfscCode("BANK IFSC 01");
+        branchData.setBranchName("SBI MUMBAI");
+        branchData.setAddress("Mumbai");
+        branchData.setPinCode(1234);
+        branchData.setAccount(account);
+
+        Bank bank = new Bank("SBI","STATE BANK OF INDIA","MUMBAI",1234,branch);
+
 
         when(bankrepo.save(bank)).thenReturn(bank);
 
 
-        assertEquals(bank.getBankName(),"SBI");
-        assertEquals(bank.getAddress(),"blr");
+        assertEquals(bank.getBankName(),"STATE BANK OF INDIA");
+        assertEquals(bank.getAddress(),"MUMBAI");
         assertEquals(bank.getPinCode(),1234);
-        assertEquals(bank.getBranch(),null);
+        assertNotNull(bank.getBranch());
 
     }
 
     @Test
     public void getBankAndUser()
     {
-        when(bankrepo.findAll()).thenReturn(Stream.of(new Bank("12","sbi","blr",1234,null)).collect(Collectors.toList()));
+
+
+        List<Branch> branch = new ArrayList<Branch>();
+        List<Account> account = new ArrayList<Account>();
+        List<Transcation> transcation = new ArrayList<Transcation>();
+
+        Transcation transcationData = new Transcation();
+
+        transcation.add(transcationData);
+
+        Account accountData = new Account();
+
+        accountData.setAccountType("Saving");
+        accountData.setCustomerName("Test name");
+        accountData.setBalance(1000);
+        accountData.setPanCard("PAN001");
+        accountData.setTranscation(transcation);
+        account.add(accountData);
+
+        Branch branchData = new Branch();
+
+        branchData.setIfscCode("BANK IFSC 01");
+        branchData.setBranchName("SBI MUMBAI");
+        branchData.setAddress("Mumbai");
+        branchData.setPinCode(1234);
+        branchData.setAccount(account);
+
+
+        when(bankrepo.findAll()).thenReturn(Stream.of(new Bank("SBI","State Bank of India","Mumbai",1234,branch)).collect(Collectors.toList()));
         assertEquals(1,bankservice.getAllBank().size());
     }
+
+
 
 }

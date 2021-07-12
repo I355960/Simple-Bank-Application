@@ -24,6 +24,10 @@ public class bankExceptionController extends RuntimeException {
         return errorMessage;
     }
 
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

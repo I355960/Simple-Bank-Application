@@ -11,4 +11,5 @@ import java.util.List;
 public interface transcationRepo extends CrudRepository<Transcation,String> {
 
     List<Transcation> findBytransDateBetween(LocalDate date1,LocalDate date2);
+
 }

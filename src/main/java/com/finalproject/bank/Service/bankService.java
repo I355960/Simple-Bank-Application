@@ -42,7 +42,7 @@ public class bankService {
 
             Branch branch1 = bank.getBranch().get(0);
             Account account1 = branch1.getAccount().get(0);
-            if (account1.getBalance() < 1000) {
+            if (account1.getTranscation().get(0).getCreditBalance() < 1000 ) {
                 throw new bankExceptionController("Your Account is not created. Due to minimum balance not is maintained");
             }
             try{
@@ -50,6 +50,7 @@ public class bankService {
                 bank.setBankName(bank.getBankName());
                 bank.setAddress(bank.getAddress());
                 bank.setPinCode(bank.getPinCode());
+                account1.setBalance(account1.getTranscation().get(0).getCreditBalance());
                 bankrepo.save(bank);
                 return "Congratulations!!Your Account is created.Your account number is :" + account1.getAccountNo();
 
@@ -189,4 +190,32 @@ public class bankService {
             return "Unavailable to transfer amount.";
     }
 
+    /*  Transcation History of a particular id */
+
+    public List<Transcation> getAllIdWithTranscation( String accountId,LocalDate dateStart,LocalDate dateEnd)
+    {
+        int i;
+        List<Transcation> transcation = new ArrayList<Transcation>();
+        List<Transcation> transcationFilter = new ArrayList<Transcation>();
+
+        account = accountrepo.findById(accountId).get();
+        int size = account.getTranscation().size();
+
+        for(i=0;i<size;i++) {
+
+            transcation.add(account.getTranscation().get(i));
+        }
+
+        for(i=0;i<size;i++)
+        {
+            if(transcation.get(i).getTransDate().isAfter(dateStart) && transcation.get(i).getTransDate().isBefore(dateEnd))
+            {
+                transcationFilter.add(transcation.get(i));
+                System.out.println(transcationFilter.get(i).getTransDate());
+
+            }
+        }
+        return transcationFilter;
+
+    }
 }

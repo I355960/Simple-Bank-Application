@@ -94,5 +94,11 @@ public class BankApi {
         return bankservice.fundTransfer(account);
     }
 
+    @GetMapping("/id/{id}/{date1}/{date2}")
+    public List<Transcation> getTranscationWithId(@PathVariable("id") String id,@PathVariable("date1") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date1, @PathVariable("date2") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date2)
+    {
+        return bankservice.getAllIdWithTranscation(id,date1,date2);
+    }
+
 
 }
