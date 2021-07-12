@@ -11,3 +11,4 @@ The Application should have the following functionality incorporated.
 4.	Allow banker to search for customers by multiple optional parameters like Name, Account No, Location and other metrics.
 5.	Allow banker to update and delete Customer Details.
 
+[Wiki page](https://github.com/I355960/Simple-Bank-Application/wiki)
