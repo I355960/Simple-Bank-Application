@@ -29,6 +29,8 @@ public class bankService {
     @Autowired
     private Account account;
     @Autowired
+    private Transcation transcation;
+    @Autowired
     private Bank bank;
     @Autowired
     private transcationRepo transcationrepo;
@@ -52,7 +54,7 @@ public class bankService {
                 bank.setPinCode(bank.getPinCode());
                 account1.setBalance(account1.getTranscation().get(0).getCreditBalance());
                 bankrepo.save(bank);
-                return "Congratulations!!Your Account is created.Your account number is :" + account1.getAccountNo();
+                return "Congratulations!!New Account is created. New Account number is : " + account1.getAccountNo();
 
         }catch (Exception e) {
             throw new bankExceptionController("Invaild entry.");
@@ -72,7 +74,7 @@ public class bankService {
     public String deleteCustomer(String accountNo)
     {
        accountrepo.deleteById(accountNo);
-        return "Delete customer record" +accountNo;
+        return "Delete customer record : " +accountNo;
     }
 /* Update account */
 
@@ -86,7 +88,7 @@ public class bankService {
             account.setPinCode(account1.getPinCode());
             account.setPanCard(account1.getPanCard());
             accountrepo.save(account);
-            return "Customer id " +id +"record is updated";
+            return "Customer id " +id +" record is updated";
         }
         return "Record not found";
 
@@ -112,7 +114,7 @@ public class bankService {
         accountrepo.save(account);
         transcationrepo.save(transcation);
 
-        return +transc.getCreditBalance() +" is credited in Account number" +id +" . Your total balance is " +account.getBalance();
+        return +transc.getCreditBalance() +" is credited in Account number: " +id +" . Total balance is " +account.getBalance();
 
     }
 
@@ -184,7 +186,7 @@ public class bankService {
             remarks = "Received from ACCOUNT NO. " +transferAmount.getSenderAccountId();
             transc1.setRemarks(remarks);
             getCreditAmount(transc1, transferAmount.getReceiverAccountId());
-            return "Transfer amount:" +transferAmount.getAmount();
+            return "Transfer amount: " +transferAmount.getAmount();
         }
         else
             return "Unavailable to transfer amount.";
@@ -211,11 +213,33 @@ public class bankService {
             if(transcation.get(i).getTransDate().isAfter(dateStart) && transcation.get(i).getTransDate().isBefore(dateEnd))
             {
                 transcationFilter.add(transcation.get(i));
-                System.out.println(transcationFilter.get(i).getTransDate());
 
             }
         }
         return transcationFilter;
+
+    }
+    public List<Transcation> getTranscationWithIdAndDate(String accountId,LocalDate dateStart,LocalDate dateEnd)
+    {
+        List<Transcation> transcation1 = new ArrayList<Transcation>();
+
+        transcation1 = transcationrepo.findAllAccountIdBetweenDate(accountId,dateStart,dateEnd);
+        return transcation1;
+    }
+
+    public String recordUpdateBranch(Branch branch, String id)
+    {
+        Branch branchUpdate = branchrepo.findById(id).get();
+        if(branchUpdate.getIfscCode() == id)
+        {
+            branchUpdate.setBranchName(branch.getBranchName());
+            branchUpdate.setAddress(branch.getAddress());
+            branchUpdate.setPinCode(branch.getPinCode());
+            //branchUpdate.setIfscCode(branch.getIfscCode());
+            branchrepo.save(branchUpdate);
+            return "Branch id " +id +" records are updated";
+        }
+        return "Record not found";
 
     }
 }

@@ -16,7 +16,7 @@ public class bankExceptionControllerHandle {
     @ExceptionHandler(bankExceptionController.class)
     public ResponseEntity<String> handleBankException(bankExceptionController bankexceptioncontroller)
     {
-        return new ResponseEntity<String>("Minimum balance are not maintained", HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<String>(bankexceptioncontroller.getErrorMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(NoSuchElementException.class)

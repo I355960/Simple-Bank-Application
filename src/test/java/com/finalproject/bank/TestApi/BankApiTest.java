@@ -84,7 +84,7 @@ public class BankApiTest {
     }
 
     @Test
-    public void getBankAndUser()
+    public void getBankDetails()
     {
 
 

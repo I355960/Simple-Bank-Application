@@ -2,6 +2,7 @@ package com.finalproject.bank.Api;
 
 import com.finalproject.bank.Entity.Account;
 import com.finalproject.bank.Entity.Bank;
+import com.finalproject.bank.Entity.Branch;
 import com.finalproject.bank.Entity.Transcation;
 import com.finalproject.bank.Exception.bankExceptionController;
 import com.finalproject.bank.Service.bankService;
@@ -99,6 +100,23 @@ public class BankApi {
     {
         return bankservice.getAllIdWithTranscation(id,date1,date2);
     }
+
+    @GetMapping("/accountid/{id}/{date1}/{date2}")
+    public List<Transcation> getTranscationWithIdAndDate(@PathVariable("id") String id,@PathVariable("date1") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date1, @PathVariable("date2") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date2)
+    {
+        List<Transcation> transdata =bankservice.getTranscationWithIdAndDate(id,date1,date2);
+        if( transdata.isEmpty())
+        throw new bankExceptionController("No transcation is happened in between date " +date1 +" and " +date2);
+        else
+        return transdata;
+    }
+
+    @PatchMapping("/updatebranch/{id}")
+    private String updateBranch(@RequestBody Branch branch, @PathVariable("id") String id)
+    {
+        return bankservice.recordUpdateBranch(branch,id);
+    }
+
 
 
 }
